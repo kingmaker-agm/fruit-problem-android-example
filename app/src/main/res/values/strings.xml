@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Fruits Problem Example</string>
+    <string name="first_gate">First Gate</string>
+    <string name="second_gate">Second Gate</string>
+    <string name="third_gate">Third Gate</string>
+    <string name="given">Given :</string>
+    <string name="remaining">Remaining :</string>
+    <string name="given_count">Given : %1$d</string>
+    <string name="remaining_count">Remaining : %1$d</string>
+    <string name="calculate">Calculate</string>
+    <string name="initial_fruits">Initial Fruits</string>
+</resources>
