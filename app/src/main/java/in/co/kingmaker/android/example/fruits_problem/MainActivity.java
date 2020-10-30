@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            clearTextViews();
+
             int fruits = Integer.parseInt(editText.getText().toString());
             if (fruits <= 0 || fruits % 2 != 0) {
                 Toast.makeText(MainActivity.this, "Fruits count need to be a positive Even number", Toast.LENGTH_SHORT).show();
@@ -38,13 +40,13 @@ public class MainActivity extends AppCompatActivity {
             int fruitsRemainingAfterGate1 = fruits - fruitsGivenOnGate1;
             given1.setText(
                     String.format(
-                            getResources().getString(R.string.given_count),
+                            getString(R.string.given_count),
                             fruitsGivenOnGate1
                     )
             );
             remaining1.setText(
                     String.format(
-                            getResources().getString(R.string.remaining_count),
+                            getString(R.string.remaining_count),
                             fruitsRemainingAfterGate1
                     )
             );
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            clearTextViews();
+
             int fruits = Integer.parseInt(editText.getText().toString());
             if (fruits <= 0 || fruits % 2 != 0) {
                 Toast.makeText(MainActivity.this, "Fruits count need to be a positive Even number", Toast.LENGTH_SHORT).show();
@@ -65,6 +69,19 @@ public class MainActivity extends AppCompatActivity {
             int fruitsGivenOnGate1 = fruits / 2 + 1;
             int fruitsRemainingAfterGate1 = fruits - fruitsGivenOnGate1;
 
+            given1.setText(
+                    String.format(
+                            getString(R.string.given_count),
+                            fruitsGivenOnGate1
+                    )
+            );
+            remaining1.setText(
+                    String.format(
+                            getString(R.string.remaining_count),
+                            fruitsRemainingAfterGate1
+                    )
+            );
+
             if (fruitsRemainingAfterGate1 <= 0 || fruitsRemainingAfterGate1 % 2 != 0) {
                 Toast.makeText(MainActivity.this, "Fruits count after passing Gate 1 need to be a positive Even number", Toast.LENGTH_SHORT).show();
                 return;
@@ -73,27 +90,15 @@ public class MainActivity extends AppCompatActivity {
             int fruitsGivenOnGate2 = fruitsRemainingAfterGate1 / 2 + 1;
             int fruitsRemainingAfterGate2 = fruitsRemainingAfterGate1 - fruitsGivenOnGate2;
 
-            given1.setText(
-                    String.format(
-                            getResources().getString(R.string.given_count),
-                            fruitsGivenOnGate1
-                    )
-            );
-            remaining1.setText(
-                    String.format(
-                            getResources().getString(R.string.remaining_count),
-                            fruitsRemainingAfterGate1
-                    )
-            );
             given2.setText(
                     String.format(
-                            getResources().getString(R.string.given_count),
+                            getString(R.string.given_count),
                             fruitsGivenOnGate2
                     )
             );
             remaining2.setText(
                     String.format(
-                            getResources().getString(R.string.remaining_count),
+                            getString(R.string.remaining_count),
                             fruitsRemainingAfterGate2
                     )
             );
@@ -105,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
+            clearTextViews();
+
             int fruits = Integer.parseInt(editText.getText().toString());
             if (fruits <= 0 || fruits % 2 != 0) {
                 Toast.makeText(MainActivity.this, "Fruits count need to be a positive Even number", Toast.LENGTH_SHORT).show();
@@ -114,6 +121,19 @@ public class MainActivity extends AppCompatActivity {
             int fruitsGivenOnGate1 = fruits / 2 + 1;
             int fruitsRemainingAfterGate1 = fruits - fruitsGivenOnGate1;
 
+            given1.setText(
+                    String.format(
+                            getString(R.string.given_count),
+                            fruitsGivenOnGate1
+                    )
+            );
+            remaining1.setText(
+                    String.format(
+                            getString(R.string.remaining_count),
+                            fruitsRemainingAfterGate1
+                    )
+            );
+
             if (fruitsRemainingAfterGate1 <= 0 || fruitsRemainingAfterGate1 % 2 != 0) {
                 Toast.makeText(MainActivity.this, "Fruits count after passing Gate 1 need to be a positive Even number", Toast.LENGTH_SHORT).show();
                 return;
@@ -121,6 +141,19 @@ public class MainActivity extends AppCompatActivity {
 
             int fruitsGivenOnGate2 = fruitsRemainingAfterGate1 / 2 + 1;
             int fruitsRemainingAfterGate2 = fruitsRemainingAfterGate1 - fruitsGivenOnGate2;
+
+            given2.setText(
+                    String.format(
+                            getString(R.string.given_count),
+                            fruitsGivenOnGate2
+                    )
+            );
+            remaining2.setText(
+                    String.format(
+                            getString(R.string.remaining_count),
+                            fruitsRemainingAfterGate2
+                    )
+            );
 
             if (fruitsRemainingAfterGate2 <= 0 || fruitsRemainingAfterGate2 % 2 != 0) {
                 Toast.makeText(MainActivity.this, "Fruits count after passing Gate 2 need to be a positive Even number", Toast.LENGTH_SHORT).show();
@@ -130,43 +163,28 @@ public class MainActivity extends AppCompatActivity {
             int fruitsGivenOnGate3 = fruitsRemainingAfterGate2 / 2 + 1;
             int fruitsRemainingAfterGate3 = fruitsRemainingAfterGate2 - fruitsGivenOnGate3;
 
-            given1.setText(
-                    String.format(
-                            getResources().getString(R.string.given_count),
-                            fruitsGivenOnGate1
-                    )
-            );
-            remaining1.setText(
-                    String.format(
-                            getResources().getString(R.string.remaining_count),
-                            fruitsRemainingAfterGate1
-                    )
-            );
-            given2.setText(
-                    String.format(
-                            getResources().getString(R.string.given_count),
-                            fruitsGivenOnGate2
-                    )
-            );
-            remaining2.setText(
-                    String.format(
-                            getResources().getString(R.string.remaining_count),
-                            fruitsRemainingAfterGate2
-                    )
-            );
             given3.setText(
                     String.format(
-                            getResources().getString(R.string.given_count),
+                            getString(R.string.given_count),
                             fruitsGivenOnGate3
                     )
             );
             remaining3.setText(
                     String.format(
-                            getResources().getString(R.string.remaining_count),
+                            getString(R.string.remaining_count),
                             fruitsRemainingAfterGate3
                     )
             );
         });
+    }
+
+    protected void clearTextViews() {
+        given1.setText(getString(R.string.given));
+        given2.setText(getString(R.string.given));
+        given3.setText(getString(R.string.given));
+        remaining1.setText(getString(R.string.remaining));
+        remaining2.setText(getString(R.string.remaining));
+        remaining3.setText(getString(R.string.remaining));
     }
 
     protected void initializeViews() {
