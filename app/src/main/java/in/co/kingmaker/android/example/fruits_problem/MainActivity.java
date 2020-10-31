@@ -3,12 +3,15 @@ package in.co.kingmaker.android.example.fruits_problem;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Arrays;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     EditText editText;
     TextView given1, given2, given3, remaining1, remaining2, remaining3;
     Button btn1, btn2, btn3;
@@ -22,101 +25,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void attachButtonListeners() {
-        btn1.setOnClickListener(view -> {
-            if (isFruitsFieldEmpty()) {
-                showMessage("Fruits count can't be empty");
-                return;
-            }
+        btn1.setOnClickListener(this);
+        btn2.setOnClickListener(this);
+        btn3.setOnClickListener(this);
+    }
 
-            clearTextViews();
+    protected void calculateFruitsSeparation(int initialFruitsCount, int level) throws IllegalArgumentException, IllegalStateException {
+        int[] allowedLevels = {1,2,3};
+        if (Arrays.stream(allowedLevels).noneMatch(i -> i == level))
+            throw new IllegalArgumentException("The Level value of 1-3 are only allowed");
 
-            int fruits = Integer.parseInt(editText.getText().toString());
-            if (fruits <= 0 || fruits % 2 != 0) {
-                showMessage("Fruits count need to be a positive Even number");
-                return;
-            }
+        for(int lvl = 1, fruitsAtCurrentLevel = initialFruitsCount; lvl <= level; lvl++) {
+            if (fruitsAtCurrentLevel < 0 || fruitsAtCurrentLevel % 2 != 0)
+                throw new IllegalStateException("Fruits count after passing Gate " + level + " need to be a positive Even number");
 
-            int fruitsGivenOnGate1 = fruits / 2 + 1;
-            int fruitsRemainingAfterGate1 = fruits - fruitsGivenOnGate1;
-
-            setGivenValue(fruitsRemainingAfterGate1, 1);
-            setRemainingValue(fruitsRemainingAfterGate1, 1);
-        });
-
-        btn2.setOnClickListener(view -> {
-            if (isFruitsFieldEmpty()) {
-                showMessage("Fruits count can't be empty");
-                return;
-            }
-
-            clearTextViews();
-
-            int fruits = Integer.parseInt(editText.getText().toString());
-            if (fruits <= 0 || fruits % 2 != 0) {
-                showMessage("Fruits count need to be a positive Even number");
-                return;
-            }
-
-            int fruitsGivenOnGate1 = fruits / 2 + 1;
-            int fruitsRemainingAfterGate1 = fruits - fruitsGivenOnGate1;
-
-            setGivenValue(fruitsRemainingAfterGate1, 1);
-            setRemainingValue(fruitsRemainingAfterGate1, 1);
-
-            if (fruitsRemainingAfterGate1 <= 0 || fruitsRemainingAfterGate1 % 2 != 0) {
-                showMessage("Fruits count after passing Gate 1 need to be a positive Even number");
-                return;
-            }
-
-            int fruitsGivenOnGate2 = fruitsRemainingAfterGate1 / 2 + 1;
-            int fruitsRemainingAfterGate2 = fruitsRemainingAfterGate1 - fruitsGivenOnGate2;
-
-            setGivenValue(fruitsRemainingAfterGate2, 2);
-            setRemainingValue(fruitsRemainingAfterGate2, 2);
-        });
-
-        btn3.setOnClickListener(view -> {
-            if (isFruitsFieldEmpty()) {
-                showMessage("Fruits count can't be empty");
-                return;
-            }
-
-            clearTextViews();
-
-            int fruits = Integer.parseInt(editText.getText().toString());
-            if (fruits <= 0 || fruits % 2 != 0) {
-                showMessage("Fruits count need to be a positive Even number");
-                return;
-            }
-
-            int fruitsGivenOnGate1 = fruits / 2 + 1;
-            int fruitsRemainingAfterGate1 = fruits - fruitsGivenOnGate1;
-
-            setGivenValue(fruitsRemainingAfterGate1, 1);
-            setRemainingValue(fruitsRemainingAfterGate1, 1);
-
-            if (fruitsRemainingAfterGate1 <= 0 || fruitsRemainingAfterGate1 % 2 != 0) {
-                showMessage("Fruits count after passing Gate 1 need to be a positive Even number");
-                return;
-            }
-
-            int fruitsGivenOnGate2 = fruitsRemainingAfterGate1 / 2 + 1;
-            int fruitsRemainingAfterGate2 = fruitsRemainingAfterGate1 - fruitsGivenOnGate2;
-
-            setGivenValue(fruitsRemainingAfterGate2, 2);
-            setRemainingValue(fruitsRemainingAfterGate2, 2);
-
-            if (fruitsRemainingAfterGate2 <= 0 || fruitsRemainingAfterGate2 % 2 != 0) {
-                showMessage("Fruits count after passing Gate 2 need to be a positive Even number");
-                return;
-            }
-
-            int fruitsGivenOnGate3 = fruitsRemainingAfterGate2 / 2 + 1;
-            int fruitsRemainingAfterGate3 = fruitsRemainingAfterGate2 - fruitsGivenOnGate3;
-
-            setGivenValue(fruitsRemainingAfterGate3, 3);
-            setRemainingValue(fruitsRemainingAfterGate3, 3);
-        });
+            int fruitsGivenAtCurrentLevel  = fruitsAtCurrentLevel / 2 + 1;
+            fruitsAtCurrentLevel -= fruitsGivenAtCurrentLevel;
+            setGivenValue(fruitsGivenAtCurrentLevel, lvl);
+            setRemainingValue(fruitsAtCurrentLevel, lvl);
+        }
     }
 
     /**
@@ -233,5 +160,39 @@ public class MainActivity extends AppCompatActivity {
         btn1 = findViewById(R.id.btn1);
         btn2 = findViewById(R.id.btn2);
         btn3 = findViewById(R.id.btn3);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (isFruitsFieldEmpty()) {
+            showMessage("Fruits count can't be empty");
+            return;
+        }
+
+        clearTextViews();
+
+        int level = -1;
+        switch (view.getId()) {
+            case R.id.btn1:
+                level = 1;
+                break;
+            case R.id.btn2:
+                level = 2;
+                break;
+            case R.id.btn3:
+                level = 3;
+                break;
+            default:
+                return;
+        }
+
+        try {
+            this.calculateFruitsSeparation(
+                    Integer.parseInt(editText.getText().toString()),
+                    level
+            );
+        } catch (IllegalStateException e) {
+            showMessage(e.getMessage());
+        }
     }
 }
