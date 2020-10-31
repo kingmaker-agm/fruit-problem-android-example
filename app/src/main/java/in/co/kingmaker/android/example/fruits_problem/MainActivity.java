@@ -11,6 +11,11 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
+import in.co.kingmaker.android.example.fruits_problem.domain.FruitsGatekeeperProblem;
+import in.co.kingmaker.android.example.fruits_problem.domain.FruitsSeparationException;
+import in.co.kingmaker.android.example.fruits_problem.domain.SeparationContract;
+import in.co.kingmaker.android.example.fruits_problem.domain.dto.FruitsSeparationSolution;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     EditText editText;
     TextView given1, given2, given3, remaining1, remaining2, remaining3;
@@ -35,14 +40,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (Arrays.stream(allowedLevels).noneMatch(i -> i == level))
             throw new IllegalArgumentException("The Level value of 1-3 are only allowed");
 
-        for(int lvl = 1, fruitsAtCurrentLevel = initialFruitsCount; lvl <= level; lvl++) {
-            if (fruitsAtCurrentLevel < 0 || fruitsAtCurrentLevel % 2 != 0)
-                throw new IllegalStateException("Fruits count after passing Gate " + level + " need to be a positive Even number");
+        try {
+            FruitsGatekeeperProblem problem = new FruitsGatekeeperProblem(new SeparationContract() {
+                @Override
+                public int getFruitsToBeGiven(int fruitsAtHand) throws Exception {
+                    if (fruitsAtHand < 0 || fruitsAtHand % 2 != 0)
+                        throw new Exception("Fruit Count needs to be a positive Even number");
 
-            int fruitsGivenAtCurrentLevel  = fruitsAtCurrentLevel / 2 + 1;
-            fruitsAtCurrentLevel -= fruitsGivenAtCurrentLevel;
-            setGivenValue(fruitsGivenAtCurrentLevel, lvl);
-            setRemainingValue(fruitsAtCurrentLevel, lvl);
+                    return fruitsAtHand / 2 + 1;
+                }
+
+                @Override
+                public int getRemainingFruits(int fruitsAtHand) throws Exception {
+                    return fruitsAtHand - this.getFruitsToBeGiven(fruitsAtHand);
+                }
+            });
+
+            FruitsSeparationSolution solution = problem.calculateSeparations(initialFruitsCount, level);
+            displayResults(solution);
+        } catch (FruitsSeparationException e) {
+            displayResults(e.intermediateSolution);
+            showMessage(e.getMessage() + " at level " + e.exceptionsLevel);
+        }
+    }
+
+    protected void displayResults(FruitsSeparationSolution solution) {
+        for (int i = 1; i <= solution.getTotalLevels(); i++) {
+            setGivenValue(solution.getSeparationAtLevel(i).getGiven(), i);
+            setRemainingValue(solution.getSeparationAtLevel(i).getRemaining(), i);
         }
     }
 
